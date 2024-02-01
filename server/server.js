@@ -3,10 +3,11 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.routes.js"
 import connectToMongoDB from "./database/connect.MongoDB.js";
 
-const app = express();
-const PORT = process.env.PORT || 3000; 
-
 dotenv.config();
+
+const PORT = process.env.PORT || 3000; 
+const app = express();
+
 
 app.use(express.json()); // to parse the incoming reqs with JSON (from req.body)
 
