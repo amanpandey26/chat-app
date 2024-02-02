@@ -6,25 +6,27 @@ export const signup = async (req, res) => {
     try {
         const {fullName, userName, password, confirmPassword, gender} = req.body;
 
-        if (password !== confirmPassword) {
-            return res.status(400).json({error:"Passwords don't match!"})
-        }
-
+        // checking if user already exists and returning an error message if true
         const user = await User.findOne({userName});
 
         if (user) {
             return res.status(400).json({error:"User already exists!"})
         }
 
-        // password hashing
+        // checking if password and confirmPassword fields match and returning an error message if false
+        if (password !== confirmPassword) {
+            return res.status(400).json({error:"Passwords don't match!"})
+        }
 
+        // password hashing
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password,salt);
 
-    
+        // profile picture generation based on the gender of user
         const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${userName}`;
         const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${userName}`;
     
+        // creating a new user from the input fields and saving it to the User schema
         const newUser = new User ({
             fullName,
             userName,
@@ -32,15 +34,20 @@ export const signup = async (req, res) => {
             gender,
             profilePicture : gender === "male" ? boyProfilePic : girlProfilePic,
         })
+        
+        if (newUser) {
+            await newUser.save();
 
-        await newUser.save();
-
-        res.status(201).json({
-            id: newUser._id,
-            fullName: newUser.fullName,
-            userName: newUser.userName,
-            profilePicture: newUser.profilePicture,
-        })
+            res.status(201).json({
+                id: newUser._id,
+                fullName: newUser.fullName,
+                userName: newUser.userName,
+                profilePicture: newUser.profilePicture,
+            })    
+        } else {
+            res.status(400).json({error:"Invalid user data"})
+        }
+        
 
 
     } catch (error) {
