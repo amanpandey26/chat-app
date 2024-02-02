@@ -1,9 +1,10 @@
+import bcrypt from "bcryptjs";
 import User from "../models/user.model.js"
 
 export const signup = async (req, res) => {
 
     try {
-        const {fullName, userName, password} = req.body();
+        const {fullName, userName, password, confirmPassword, gender} = req.body;
 
         if (password !== confirmPassword) {
             return res.status(400).json({error:"Passwords don't match!"})
@@ -15,7 +16,11 @@ export const signup = async (req, res) => {
             return res.status(400).json({error:"User already exists!"})
         }
 
-        // https://avatar.iran.liara.run/public/boy?username=Scott
+        // password hashing
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password,salt);
+
     
         const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${userName}`;
         const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${userName}`;
@@ -23,14 +28,14 @@ export const signup = async (req, res) => {
         const newUser = new User ({
             fullName,
             userName,
-            password,
+            password : hashedPassword,
             gender,
             profilePicture : gender === "male" ? boyProfilePic : girlProfilePic,
         })
 
         await newUser.save();
 
-        res.status(202).json({
+        res.status(201).json({
             id: newUser._id,
             fullName: newUser.fullName,
             userName: newUser.userName,
@@ -44,11 +49,9 @@ export const signup = async (req, res) => {
     }
 
 
-
-
-    res.send("Signup Page")
-    console.log("Signup");
 }
+
+
 export const login = (req, res) => {
     res.send("Login Page")
     console.log("Login")
