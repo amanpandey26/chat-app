@@ -30,7 +30,7 @@ export const sendMessage = async (req, res) => {
         await conversation.save();
         await newMessage.save();
 
-        // res.status(201).json(newMessage);
+        res.status(201).json(newMessage);
 
     } catch (error) {
         console.log("Error in sendMessage controller",error)
