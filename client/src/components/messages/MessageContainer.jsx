@@ -1,4 +1,5 @@
 // import React from 'react'
+import Messages from "./Messages"
 
 const MessageContainer = () => {
   return (
@@ -10,7 +11,7 @@ const MessageContainer = () => {
 
 
             <Messages />
-            <MessagesInput />
+            {/* <MessagesInput /> */}
         </>
     </div>
   )
