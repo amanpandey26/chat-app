@@ -4,8 +4,8 @@ import useLogin from "../../hooks/useLogin";
 
 const Login = () => {
 
-  const [userName, setUserName] = useState();
-  const [password, setPassword] = useState();
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
   
   const {loading, login} = useLogin();
 
