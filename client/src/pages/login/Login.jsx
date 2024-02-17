@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+
+  const [userName, setUserName] = useState();
+  const [password, setPassword] = useState();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await login(userName, password)
+  }
+
   return (
     <div className="flex flex-col items-center justify-center main-w-96 mx-auto">
       <div className="w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-0">
@@ -9,7 +18,7 @@ const Login = () => {
           Login
           <span className="text-pink-300"> WeChat</span>
         </h1>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div>
             <label className="label p-2">
               <span className="text-base label-text">Username</span>
@@ -18,6 +27,8 @@ const Login = () => {
               type="text"
               placeholder="Enter Username"
               className="w-full input input-bordered h-10"
+              value={userName}
+              onChange={(e)=>setUserName(e.target.value)}
             />
           </div>
           <div>
@@ -28,6 +39,8 @@ const Login = () => {
               type="password"
               placeholder="Enter Password"
               className="w-full input input-bordered h-10"
+              value={password}
+              onChange={(e)=>setPassword(e.target.value)}
             />
           </div>
           <Link to="/signup" className="text-sm hover:underline hover:text-pink-300 mt-2 inline-block">
