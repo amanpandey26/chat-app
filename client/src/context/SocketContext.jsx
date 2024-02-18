@@ -15,7 +15,7 @@ export const SocketContextProvider = ({children}) => {
 
     useEffect(()=> {
         if (authUser) {
-            const socket = io("https://wechat-foyo.onrender.com", {
+            const socket = io("https://wechat-alpha-six.vercel.app/", {
                 query: {
                     userId: authUser._id
                 }
