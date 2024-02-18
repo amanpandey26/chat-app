@@ -11,7 +11,7 @@ import { app, server } from "./socket/socket.js";
 
 dotenv.config();
 
-const PORT = process.env.PORT || 3000; 
+const PORT = process.env.PORT || 5000; 
 
 app.use(express.json()); // to parse the incoming reqs with JSON (from req.body)
 app.use(cookieParser());
