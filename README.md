@@ -1,2 +1,2 @@
 # chat-app
-A MERN Chatting Application
+A MERN Chatting Application -
